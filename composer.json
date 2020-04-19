@@ -1,7 +1,23 @@
-{
+{   
+    "name": "xytoki/tcshare",
+    "description": "Multicloud directory listing.",
+    "version": "3.2.1",
+    "type": "project",
+	"config": {
+        "optimize-autoloader": true,
+        "vendor-dir": "_app/vendor"
+    },
+    "autoload": {
+        "classmap": ["_app/lib","_app/providers","_app/rules","_plugins"]
+    },
     "require": {
-        "mikecao/flight": "^1.3",
-        "firebase/php-jwt": "^5.0",
-        "envms/fluentpdo": "^2.1"
+        "xytoki/scf-flight": "^0.0.6",
+		"mikecao/flight": "^1.3",
+        "tarask/onedrive": "^1.1",
+        "symfony/dotenv": "^5.0",
+        "symfony/cache": "^5.0",
+        "ralouphie/mimey": "^2.1",
+        "guzzlehttp/guzzle": "^6.5",
+        "sabre/dav": "^4.1"
     }
 }

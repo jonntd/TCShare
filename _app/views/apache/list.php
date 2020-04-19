@@ -11,9 +11,9 @@
 		<h1 id="heading">Index of <?php echo urldecode($path);?></h1>
 		<table id="table">
 			<tr>
-			    <th class="file-name">Name</th>
-			    <th class="file-size">Size</th>
-			    <th class="file-date-modified">Date Modified</th>
+			    <th class="file-name"><a href="?sort=name&order=<?php echo ($sort!='name'||$order=='desc')?"asc":"desc";?>">Name</a></th>
+			    <th class="file-size"><a href="?sort=size&order=<?php echo ($sort!='size'||$order=='desc')?"asc":"desc";?>">Size</a></th>
+			    <th class="file-date-modified"><a href="?sort=timeModified&order=<?php echo ($sort!='timeModified'||$order=='desc')?"asc":"desc";?>">Date Modified</a></th>
 			</tr>
 			<?php if($path != '/'):?>
 				<tr>
@@ -24,19 +24,29 @@
 					<td class="file-date-modified"></td>
 				</tr>
 			<?php endif;?>
-			<?php foreach($folders as $item): if(!$item)continue;?>
+			<?php foreach($folders as $item):?>
 					<tr>
-						<td class="file-name"><a class="icon icon-dir" href="<?php echo TC::abspath($path,$item['name']);?>"><?php echo $item['name'];?>/</a></td>
-						<td class="file-size"> - </td>
-						<td class="file-date-modified"><?php echo $item['lastOpTime']; ?></td>
+						<td class="file-name">
+							<a class="icon icon-dir" href="<?php echo TC::abspath($path,$item->name());?>/">
+								<?php echo $item->name();?>/
+							</a>
+						</td>
+						<td class="file-size">	
+						<?php if(method_exists($item,"zipDownload")){ ?>
+							<a href="<?php echo TC::abspath($path,rawurlencode($item->name()));?>/?TC_zip">
+									[ZIP]
+							</a>
+						<?php }else{ echo "-"; } ?>
+						</td>
+						<td class="file-date-modified"><?php echo $item->timeModified(); ?></td>
 						<!-- <?php var_dump($item); ?> -->
 					</tr>
 			<?php endforeach;?>
-			<?php foreach($files as $item): if(!$item)continue;?>
+			<?php foreach($files as $item):?>
 					<tr>
-						<td class="file-name"><a class="icon icon-file" data-readypreview="<?php echo TC::ext($item['name']);?>" href="<?php echo TC::abspath($path,$item['name']);?>"><?php echo $item['name'];?></a></td>
-						<td class="file-size"><?php echo TC::human_filesize($item['size']);?></td>
-						<td class="file-date-modified"><?php echo $item['lastOpTime'];?></td>
+						<td class="file-name"><a class="icon icon-file" data-readypreview="<?php echo TC::ext($item->name());?>" href="<?php echo TC::abspath($path,$item->name());?>"><?php echo $item->name();?></a></td>
+						<td class="file-size"><?php echo TC::human_filesize($item->size());?></td>
+						<td class="file-date-modified"><?php echo $item->timeModified();?></td>
 						<!-- <?php var_dump($item); ?> -->
 					</tr>
 			<?php endforeach;?>
